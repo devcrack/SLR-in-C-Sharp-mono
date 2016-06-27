@@ -1,0 +1,6 @@
+/home/jaha-devcrack/Escritorio/SLR/SLR/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jaha-devcrack/Escritorio/SLR/SLR/obj/x86/Debug/SLR.gtk-gui.gui.stetic
+/home/jaha-devcrack/Escritorio/SLR/SLR/bin/Debug/SLR.exe.mdb
+/home/jaha-devcrack/Escritorio/SLR/SLR/bin/Debug/SLR.exe
+/home/jaha-devcrack/Escritorio/SLR/SLR/obj/x86/Debug/SLR.exe
+/home/jaha-devcrack/Escritorio/SLR/SLR/obj/x86/Debug/SLR.exe.mdb
