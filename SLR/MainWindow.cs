@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using Gtk;
 using System.IO;
+using SLR;
 public partial class MainWindow: Gtk.Window
 {
-	string path_OpenFiles;
+	private string path_OpenFiles;
+	private my_String aux_String;
 
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
@@ -54,12 +56,84 @@ public partial class MainWindow: Gtk.Window
 		file_Dialog.SetCurrentFolder (this.path_OpenFiles);//Establish the open folder default
 		file_Dialog.Gravity = Gdk.Gravity.Center;
 		if (file_Dialog.Run () == (int)ResponseType.Accept) {
-			//FileStream file = File.OpenRead(
 			this.textview1.Buffer.Clear();
 			this.textview1.Buffer.Text = File.ReadAllText (file_Dialog.Filename);
-			//this.textview2.Buffer.Text = file_Dialog.Filename;
-
 		}
 		file_Dialog.Destroy ();
 	}
+
+	[GLib.ConnectBefore]
+	protected void Edit_TView_Key_Press_Event (object o, KeyPressEventArgs args)
+	{
+		string[] lines;
+		if (
+				args.Event.Key == Gdk.Key.space 
+			|| 
+				(args.Event.Key >= Gdk.Key.a && args.Event.Key <= Gdk.Key.z || args.Event.Key >= Gdk.Key.A && args.Event.Key <= Gdk.Key.Z)
+			||
+				args.Event.Key == Gdk.Key.BackSpace
+			||
+				args.Event.Key == Gdk.Key.greater
+			||
+				args.Event.Key == Gdk.Key.equal		
+			||
+				(args.Event.Key >= Gdk.Key.Key_0 && args.Event.Key <= Gdk.Key.Key_9)
+			||
+				args.Event.Key == Gdk.Key.Return
+			) {
+			this.textview1.Editable = true;		
+			if (args.Event.Key == Gdk.Key.Return) {
+				lines = this.textview1.Buffer.Text.Split ('\n'); /*Catch all the lines within of texview buffer*/
+				if ( this.verify_Validity (lines [lines.Length - 1]) == true) {
+					this.textview1.Editable = true;		
+				}
+				else {
+					this.textview1.Editable = false;
+				}
+			}
+			
+		} 
+		else {
+			this.textview1.Editable = false;
+		}
+		//this.textview2.Buffer.Text += args.Event.Key;
+		
+	}
+
+	private bool verify_Validity (string str)
+	{
+		this.aux_String = new my_String (str);
+
+		int cont_1 = aux_String.count_Char_incident ('=');
+		int cont_2 = aux_String.count_Char_incident ('>');
+
+		if (cont_1 == 1 || cont_2 == 1) {
+			if (str.IndexOf ('>') < str.IndexOf ('=')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
